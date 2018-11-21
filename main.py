@@ -35,10 +35,10 @@ def clean_text(text):
 	words = [w for w in words if (not bsearch(w))] 
 	return dict(Counter(words))
 
-def preprocess():
+def preprocess(restart=False):
 	global corpus_freq
 	global total
-	if not os.path.exists('freq_data.txt'):
+	if (not os.path.exists('freq_data.txt')) or restart:
 		corpus_file = open('corpus.txt', 'rt')
 		with open("freq_data.txt", "w") as data_file:
 			corpus_freq = clean_text(corpus_file.read())
@@ -51,7 +51,11 @@ def preprocess():
 
 if __name__ == '__main__':
 	
-	preprocess()
+
+	if len(sys.argv) > 2 and sys.argv[2] == "-R":
+		preprocess(True)
+	else:
+		preprocess()	
 
 	if len(sys.argv) < 2:
 		print("Missing file name")
@@ -64,10 +68,10 @@ if __name__ == '__main__':
 	tfidf = []
 
 	for i in doc_freq:
-		tfidf.append([doc_freq[i]*log10(total/(corpus_freq[i]+1)),i])
+		tfidf.append([doc_freq[i]*log10(total/(corpus_freq.get(i,0)+1)), i])
 
-	tfidf.sort(reverse = True)
+	tfidf.sort(reverse=True)
 
 	print("Possible topics are ---")
-	for i in range(10):
+	for i in range(min(5, len(tfidf))):
 		print(tfidf[i][1])
