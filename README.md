@@ -8,7 +8,7 @@ Gets a current topic based on captions using tf-idf.
   python3 main.py input.txt  
 `  
 If you want better results, change the corpus.txt file and run  
-`
-python3 main,py input.txt -R  
 `  
+python3 main,py input.txt -R   
+`    
 -R restarts the preprocess
