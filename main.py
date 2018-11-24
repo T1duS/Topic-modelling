@@ -93,6 +93,8 @@ if __name__ == '__main__':
 		for i in cleansent:
 			vec[i] = tfidf[i] 
 		tfidfsent.append(vec)
+
+	tfidfsent = [i for i in tfidfsent if i]
 	
 	n = len(tfidfsent)
 	score = [0]*(n+1)		
